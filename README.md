@@ -41,7 +41,6 @@ Advanced materials:
 - Extended haplotype statistics [Exercise](exercises/13_identifying_selection_with_haplotype_statistics.md)
 - Identifying genes at selection peaks [Exercise](exercises/14_finding_candidate_genes.md)
 
-suggestions for further learning
 
 ## Learning more
 ### Biodiversity Genomics Academy
