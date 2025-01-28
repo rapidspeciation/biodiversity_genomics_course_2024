@@ -1,7 +1,7 @@
 ## Finding candidate genes
 (Note, this tutorial is an adapted version of the speciation genomics tutorial by Mark Ravinet and Joana Meier: https://speciationgenomics.github.io/candidate_genes)
 
-Now that we have SNPs that we think might be under selection, we can take the next step to identify what the genes lying close those SNPs. We will do this entirely in `R`.
+Now that we have SNPs that we think might be under selection, we can take the next step to identify what the genes lying close those SNPs are. We will do this entirely in `R`.
 
 ### Setting up the R environment
 
@@ -24,14 +24,13 @@ Now we're ready to proceed
 
 ### Reading in a gff file
 
-In order to identify genes, we need a `gff` file - which is gene annotation (or feature) file. You can learn more about the `gff` format [here](https://useast.ensembl.org/info/website/upload/gff.html). For this tutorial, we will use a subset of the house sparrow genome annotation produced by [Elgvin et al (2017)](https://advances.sciencemag.org/content/3/6/e1602996.full). The version we use here is just for chromsome 8.
+In order to identify genes, we need a `gff` file - which is a gene annotation (or feature) file. You can learn more about the `gff` format [here](https://useast.ensembl.org/info/website/upload/gff.html). For this tutorial, we will use a subset of the house sparrow genome annotation produced by [Elgvin et al (2017)](https://advances.sciencemag.org/content/3/6/e1602996.full). The version we use here is just for chromosome 8.
 
-First get the gff file from here:
-https://github.com/speciationgenomics/data/raw/refs/heads/master/house_sparrow_chr8.gff 
+The gff file is already in the workshop folder, if you are working on your private computer, you can get it [here](https://github.com/speciationgenomics/data/raw/refs/heads/master/house_sparrow_chr8.gff).
 
 ```r
 # read in the gff
-gff <-  read_tsv("./house_sparrow_chr8.gff", col_names = FALSE)
+gff <- read_tsv("~/workshop_materials/28_ehh/data/house_sparrow_chr8.gff", col_names = FALSE)
 # subset and clear up the gff - add names
 colnames(gff) <- c("chr", "source", "feature", "start", "end", "score",
                    "strand", "frame", "attribute")
@@ -59,8 +58,6 @@ First of all, let's replot our selection scan and remind ourselves where our pea
 ggplot(house_bac, aes(position, logpvalue)) + geom_point()
 # Let's zoom in to the largest peak
 ggplot(house_bac, aes(position, logpvalue)) + geom_point() + xlim(1.5E7,2.5E7)
-
-
 ```
 
 How can we find out the identify of the highest peak here? We can do this with a few simple `dplyr` commands.
@@ -111,10 +108,7 @@ plot(house_bac$position,house_bac$logpvalue,cex=0.5,pch=19,
      xlab="position",ylab="log p value",xlim=c(1.8e7,2.1e7), ylim=c(0,12))
 rect(xleft = new_gff$start,xright = new_gff$end,ybottom = 9.5,ytop=10)
 text(new_gff$mid,10.2,labels = new_gff$gene,srt=45,cex=0.8,adj = 0)
-
 ```
 
 
 So here we have [COL11A1](https://www.genecards.org/cgi-bin/carddisp.pl?gene=COL11A1) and [AMY2A](https://www.genecards.org/cgi-bin/carddisp.pl?gene=AMY2A).
-
-
