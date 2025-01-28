@@ -1,6 +1,8 @@
 ## Statistical phasing with shapeit2
 (Note, this tutorial is an adapted version of the speciation genomics tutorial by Mark Ravinet and Joana Meier: https://speciationgenomics.github.io/phasing)
 
+Many tools require haplotype information, e.g. extended haplotype statistics we are running in this tutorial, but also tools that do local ancestry inference like Relate, tskit or fineSTRUCTURE.
+
 Phasing basically means figuring out for heterozygous positions which of the alleles are part of the same haplotype or chromosome (e.g. which of the alleles were inherited together on a chromosome from the mother). For instance if an individual is heterozygous at two SNPs with genotypes AG and TC, phasing would tell us if the allele A at SNP1 one was inherited on the same chromosome like T or like C at the second SNP. Phased genotypes would be given as A\|G and C\|T meaning that A and C are on the same chromosome (e.g. maternal) and G and T are on the same chromosome (e.g. paternal).
 
 In the absence of long reads that span these SNPs, we can use statistical phasing using all sequenced individuals of the same population (the more the better). There are lots of different tools for phasing and most of them also impute missing genotypes. This means that they infer missing genotypes statistically resulting in a dataset without missing data.
@@ -51,7 +53,17 @@ shapeit --input-vcf sparrows_chr8.vcf.gz \
 --window 0.5 -T 2
 ```
 
-Shapeit complains that there is an individual with too high missing data proportion. Figure out which individual it is and remove it. Now let's run Shapeit again. As it complains again, we will add --force.
+Shapeit complains that there are individuals with too high missing data proportion. Shapeit will impute missing genotypes, i.e. replace the missing genotypes by the best guess given the nearby genotypes of that individual. Too much missing data is an issue as there will be more and more genotypes that need to be inferred and not much information to use. Figure out which individual has >10% missing data and remove it. If you don't remember how to indentify the missing data per individual, you can look it up in Q3 of the genomics [primer tutorial](https://evomics.org/learning/population-and-speciation-genomics/2025-population-and-speciation-genomics/population-genomics-primer-i/#ex1.1). To remove it, there are many ways. Here one suggestion with vcftools:
+
+```shell
+vcftools --gzvcf sparrows_chr8.vcf.gz --remove-indv <add individual name> \
+  --recode --stdout | bgzip > sparrows_chr8_v2.vcf.gz
+
+# Perhaps not best practice, but let's now overwrite the original file.
+mv sparrows_chr8_v2.vcf.gz sparrows_chr8.vcf.gz
+```
+
+Now let's run Shapeit again. As it complains again, we will add --force because we know that the missing data is low enough.
 
 ```shell
 shapeit --input-vcf sparrows_chr8.vcf.gz \
@@ -68,18 +80,18 @@ What did we do with this command?
 
 ### Examining the phased data and converting it to a phased vcf
 
-Once `shapeit` has finished running we can see it has produced two files, `sparrows_chr8_phased.haps` and `sparrows_chr8_phased.samples`. We can look at these in more detail:
+Once `shapeit` has finished running we can see it has produced two files, `sparrows_chr8_phased.haps` and `sparrows_chr8_phased.sample`. We can look at these in more detail:
 
 ```shell
-head sparrows_chr8_phased.samples
+head sparrows_chr8_phased.sample
 ```
 
-The `sparrows_chr8_phased.samples` file is simply a list of samples with the ID for each sample repeated in two columns and a third column showing the proportion of missing data. Since there is no missing data in this dataset, this column is just full of zeros.
+The `sparrows_chr8_phased.sample` file is simply a list of samples with the ID for each sample repeated in two columns and a third column showing the proportion of missing data. Since there is no missing data in this dataset, this column is just full of zeros.
 
 We can also look at the `.haps` output.
 
 ```shell
-less sparrows_chr8_phased.haps
+less -S sparrows_chr8_phased.haps
 ```
 
 This is basically a matrix with the first five columns identical to those in a vcf - i.e. chromosome, ID, position, reference allele, alternative allele. After this, each entry is the phased allele for each individual, where `0` is the reference allele and `1` is the alternative.
@@ -110,7 +122,7 @@ Comparing the two, we can see that the phased vcf only contains the genotypes - 
 
 ### Subsetting the vcf for a selection scans
 
-We will be using our phased vcf for long-range haplotype statistic estimation in `rehh`. While it is possible to split the populations in the vcf apart in R, it is a bit clumbsy to do so. instead, it is easier to split the vcf using `bcftools`. To do this, we first need the sample names
+We will be using our phased vcf for long-range haplotype statistic estimation in `rehh`. While it is possible to split the populations in the vcf apart in R, it is a bit clumbsy to do so. Instead, it is easier to split the vcf using `bcftools`. To do this, we first need the sample names
 
 ```shell
 # look at the sample names
@@ -125,6 +137,11 @@ This vcf contains data from two house sparrow subspecies, the European house spa
 grep "house" samples > house # samples starting with 8 are from Norway, samples with F are from France
 grep "bac" samples > bac # samples starting with P are from Iran, samples with K from Kazahkstan
 ```
+Let's check that it worked by counting the number of lines in each set. There should be around 20 in both of them.
+```shell
+wc -l house
+wc -l bac
+```
 
 Next we split the vcf:
 
@@ -133,7 +150,7 @@ bcftools view -S house -O z -o house_chr8.vcf.gz sparrows_chr8_phased.vcf.gz
 bcftools view -S bac -O z -o bac_chr8.vcf.gz sparrows_chr8_phased.vcf.gz
 ```
 
-What did we do here? We used the `bcftools index` command to extract the samples for each population. The `-S` flag extracts the samples listed in each file. `-O z` specifies that we want a compressed vcf. Finally `-o` tells `bcftools` where to write the output. Now all we need to do is index the vcfs.
+What did we do here? We used the `bcftools view` command to extract the samples for each population. The `-S` flag extracts the samples listed in each file. `-O z` specifies that we want a compressed vcf. Finally `-o` tells `bcftools` where to write the output. Now all we need to do is index the vcfs.
 
 ```shell
 bcftools index house_chr8.vcf.gz
