@@ -58,7 +58,7 @@ https://www.biodiversitygenomicsconference.org
 https://speciationgenomics.github.io/ contains many more tutorials, including topics not covered here, such as demographic modeling, haplotype-based tests for selection, advanced unix and R tutorials, simulating data with SliM, etc.
 
 ### Speciation and population genomics workshop
-[Workshop website](https://evomics.org/workshops/workshop-on-population-and-speciation-genomics/2025-workshop-on-population-and-speciation-genomics-cesky-krumlov/) contains many useful tutorial that are quite advanced, including machine learning and pangenomics.
+[Workshop website](https://evomics.org/workshops/workshop-on-population-and-speciation-genomics/2025-workshop-on-population-and-speciation-genomics-cesky-krumlov/) contains many useful tutorials that are quite advanced, including machine learning and pangenomics.
 
 ### For RAD or UCE data
 If you have short-read data for only a subset of the genome because you used a reduced-representation technique (e.g. RAD or UCE), most of the tutorial will still be relevant. For RAD or UCE data you do not necessarily need a reference genome, unless you want to run the genome scans for finding regions with high differentiation or introgression.
