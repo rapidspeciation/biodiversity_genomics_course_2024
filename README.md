@@ -34,7 +34,14 @@ Day 5:
 - [Exercise](exercises/10_Synteny.md) on macrosynteny
 - [Slides](slide_presentations/12_Phylogenomics.pdf) on phylogenomics with BUSCO genes
 - [Exercise](exercises/11_gene_trees.md) on phylogenomics with BUSCO genes
-- [Slides](slide_presentations/13_Course_Summary.pdf) summarising the course and giving some suggestions for further learning
+- [Slides](slide_presentations/13_Course_Summary.pdf) summarising the course and giving some
+
+Advanced materials:
+- Statistical phasing [Exercise](exercises/12_statistical_phasing.md)
+- Extended haplotype statistics [Exercise](exercises/13_identifying_selection_with_haplotype_statistics.md)
+- Identifying genes at selection peaks [Exercise](exercises/14_finding_candidate_genes.md)
+
+suggestions for further learning
 
 ## Learning more
 ### Biodiversity Genomics Academy
@@ -42,7 +49,7 @@ Free to attend, fully online tutorials about genome assembly, curation and annot
 https://thebgacademy.org
 
 ### Biodiversity Genomics Conference
-28 October - 1 November: Online, free conference on biodiversity genomics across all time zones: 
+28 October - 1 November: Online, free conference on biodiversity genomics across all time zones:
 https://www.biodiversitygenomicsconference.org
 
 ### Physalia courses
@@ -52,7 +59,7 @@ https://www.biodiversitygenomicsconference.org
 https://speciationgenomics.github.io/ contains many more tutorials, including topics not covered here, such as demographic modeling, haplotype-based tests for selection, advanced unix and R tutorials, simulating data with SliM, etc.
 
 ### For RAD or UCE data
-If you have short-read data for only a subset of the genome because you used a reduced-representation technique (e.g. RAD or UCE), most of the tutorial will still be relevant. For RAD or UCE data you do not necessarily need a reference genome, unless you want to run the genome scans for finding regions with high differentiation or introgression. 
+If you have short-read data for only a subset of the genome because you used a reduced-representation technique (e.g. RAD or UCE), most of the tutorial will still be relevant. For RAD or UCE data you do not necessarily need a reference genome, unless you want to run the genome scans for finding regions with high differentiation or introgression.
 If you have RAD (restriction-enzyme associated DNA) data, you can either follow the steps in our tutorial with mapping reads to a reference genome or if you do not have a reference genome, you can do a de novo assembly, i.e. make your own reference for just the RAD loci. The most widely used tool for RAD data analysis is [STACKS](https://catchenlab.life.illinois.edu/stacks). If you are working with polyploids, check out [polyRAD](https://academic.oup.com/g3journal/article/9/3/663/6026786).
 If you have UCE (ultra-conserved elements) data, have a look at this [website](https://www.ultraconserved.org/) for guidance.
 
