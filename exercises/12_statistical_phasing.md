@@ -16,6 +16,10 @@ Our aim in this tutorial is to phase whole genome resequencing data from house s
 ### Getting the vcf file to the directory where you want to work
 
 ```shell
+# Let's make a working directory and move into it
+mkdir phasing
+cd phasing
+# Get the file to work with. It is a small vcf of sparrow genotypes
 cp ~/workshop_materials/28_ehh/data/sparrows_chr8.vcf.gz ./
 ```
 
@@ -136,4 +140,4 @@ bcftools index house_chr8.vcf.gz
 bcftools index bac_chr8.vcf.gz
 ```
 
-Now we're ready to read this into `R` for a selection scan analysis. However, in order to make the phasing faster, we have so far worked with a very small dataset. For the extended haplotype statistics to work, we require all SNPs on chr8. 
+Now we're ready to read this into `R` for a selection scan analysis. However, in order to make the phasing faster, we have so far worked with a very small dataset. For the extended haplotype statistics to work, we require all SNPs on chr8.
