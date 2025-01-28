@@ -18,7 +18,7 @@ library(rehh)
 library(tidyverse)
 
 # Move into the working directory:
-setwd(~/workshop_materials/28_ehh/data)
+setwd("~/workshop_materials/28_ehh/data")
 ```
 
 ### Reading in data from vcfs
