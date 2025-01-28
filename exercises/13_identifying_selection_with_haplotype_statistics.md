@@ -1,23 +1,14 @@
 ## Detecting selective sweeps with extended haplotype statistics
 (Note, this tutorial is an adapted version of the speciation genomics tutorial by Mark Ravinet and Joana Meier: https://speciationgenomics.github.io/haplotypes)
 
-As another measure of selection, we will use tests that rely on extended haplotype lengths. During a selective sweep, a variant rises to high frequency so rapidly that linkage disequilibrium with neighbouring polymorphisms is not disrupted by recombination, giving rise to long haplotypes. In regions of low recombination, all haplotypes are expected to be longer than in regions of high recombination. Therefore, it is important to compare the haplotypes against other haplotypes at the same genomic region. This can either be within a population, whereby an ongoing sweep would lead to a single haplotype being very long compared to the other haplotypes, or between populations whereby the population that experienced a sweep has longer haplotypes than the population which was not affected by selection in that genomic region. Haplotypes are best assessed with phased dataset. 
+As another measure of selection, we will use tests that rely on extended haplotype lengths. During a selective sweep, a variant rises to high frequency so rapidly that linkage disequilibrium with neighbouring polymorphisms is not disrupted by recombination, giving rise to long haplotypes. In regions of low recombination, all haplotypes are expected to be longer than in regions of high recombination. Therefore, it is important to compare the haplotypes against other haplotypes at the same genomic region. This can either be within a population, whereby an ongoing sweep would lead to a single haplotype being very long compared to the other haplotypes, or between populations whereby the population that experienced a sweep has longer haplotypes than the population which was not affected by selection in that genomic region. Haplotypes are best assessed with phased dataset.
 
 To compute detect regions with extended haplotype lengths, we will use the excellent `rehh` R package. For more information see the [vignette](https://cran.r-project.org/web/packages/rehh/vignettes/rehh.html). `rehh` is well maintained, continually updated and has [a very informative tutorial](https://cran.r-project.org/web/packages/rehh/vignettes/rehh.html) which we recommend you also check out.
 
 To run `rehh` and perform our analyses, we need to run things in `R`. You can either download the data from [our github](https://github.com/speciationgenomics) and run it locally on your own machine, or we can use our `RStudio` server. Once `R` is running, we are ready to go!
 
-In the phasing tutorial, we used a strongly reduced dataset. So let's first get the full datasets for the house and wild (bactrianus) sparrows:
-https://github.com/speciationgenomics/data/raw/refs/heads/master/bac_chr8.vcf.gz
-https://github.com/speciationgenomics/data/raw/refs/heads/master/house_chr8.vcf.gz 
-
-Or from here:
-workshop_materials/28_ehh/data/bac_chr8.vcf.gz
-workshop_materials/28_ehh/data/house_chr8.vcf.gz
-
 ### Setting up the R environment
-
-The first thing we need to do is clear our `R` environment and load the packages we need. Like so:
+The first thing we need to do is clear our `R` environment, load the packages we need and move into the right directory to have access to our files. Like so:
 
 ```r
 # clear environment
@@ -25,6 +16,9 @@ rm(list = ls())
 # load packages
 library(rehh)
 library(tidyverse)
+
+# Move into the working directory:
+setwd(~/workshop_materials/28_ehh/data)
 ```
 
 ### Reading in data from vcfs
@@ -73,7 +67,7 @@ ihh2ihs computes the log ratio of iHH of two focal alleles as described in Voigh
 
  The standardization is performed within each bins separately because of the frequency-dependence of expected iHS values under neutrality. An implicit assumption of this approach is that each bin is dominated by neutral markers. However, as we do not have polarised data, (i.e. we do not know which allele is ancestral or derived), we cannot use that information and set `freqbin = 1`. If we did, `rehh` can apply weights to different bins of allele frequencies in order to test whether there is a significant deviation in the *iHS* statistic.
 
-house_ihs has two elements: 
+house_ihs has two elements:
 ihs: a data frame with markers in rows and the columns for chromosome name, marker position, iHS and, if standardized, p-value in a negative log10 scale. Optionally, allele frequencies are included.
 frequency.class: a data frame with bins in rows and columns for the number of markers, mean uniHS, standard deviation uniHS, lower quantile uniHS, upper quantile uniHS.
 
