@@ -3,7 +3,7 @@
 This course taught by Karin Näsvall, Nicol Rueda and Joana Meier from the [Wellcome Sanger Institute](https://www.sanger.ac.uk/group/meier-group/) is an adapted version of the [speciation genomics course](https://speciationgenomics.github.io/) by Mark Ravinet and Joana Meier. Here you will find all relevant course materials for the biodiversity genomics course, including all files we used during the course in case you want to redo anything at home.
 
 ## Gitpod
-If you would like to use the online course material and go through the tutorials yourself, you can do this via GitPod. Get an account https://gitpod.io/workspaces. 50 h per month of usage are free. You can then login to the course workspace via this link: https://gitpod.io/new#https://github.com/rapidspeciation/biodiversity_genomics_course. When asked, click "Continue". At the beginning of the GitPod session, it will install all required tools. This will take a minute, as soon as you can see the prompt "$" in the terminal, you can start.
+If you would like to use the online course material and go through the tutorials yourself, you can do this via GitPod. Get an account [here](https://gitpod.io/workspaces). 50 h per month of usage are free. You can then login to the course workspace via this link: https://gitpod.io/new#https://github.com/rapidspeciation/biodiversity_genomics_course. When asked, click "Continue". At the beginning of the GitPod session, it will install all required tools. This will take a minute, as soon as you can see the prompt "$" in the terminal, you can start.
 
 ## Course structure
 Day 1:
