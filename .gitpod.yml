@@ -60,6 +60,7 @@ tasks:
       source ~/.bashrc 
       mamba activate biodiv
       export PATH=/workspace/bin:"$PATH"
+      cd biodiversity_genomics_course_2024/
       echo ""
       echo "👋 Welcome to the biodiversity genomics Gitpod workspace!"
       echo "Please wait until all software is installed and data downloaded"
