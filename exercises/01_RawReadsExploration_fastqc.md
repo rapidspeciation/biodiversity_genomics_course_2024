@@ -12,7 +12,7 @@ cd fastqc
 
 # Now let's specify FILE as the name of the file containing the forward reads
 FILE="wgs1.R1.fastq.gz"
-cp ~/Share/wgs_raw/$FILE ./
+cp /workspace/biodiversity_genomics_2024/data/Heliconius/$FILE ./
 
 # Let's have a look at the first read:
 zcat $FILE | head -4
@@ -61,20 +61,13 @@ We should now also run fastqc on the file or reverse reads. As we do not need co
 ```shell
 # Reverse reads
 FILE="wgs1.R2.fastq.gz"
-cp ~/Share/wgs_raw/$FILE ./
+cp /workspace/biodiversity_genomics_2024/data/Heliconius/$FILE ./
 fastqc $FILE
 
 
 ```
 
-Now, we need to download the html files to the local computer for visualization. To download files, we will use the command `scp` on your local machine, so in a terminal that is not connected to the Amazon server. This command will download all html files in the folder fastqc on the Amazon server to the directory you are currently located "./". 
-
-Please note that you must change c1.pem and user1 to your username, and use the IP of the day.
-
-```shell
-scp -i c1.pem user1@<IP address>:~/fastqc/wgs1.R1_fastqc.html ./
-scp -i c1.pem user1@<IP address>:~/fastqc/wgs1.R2_fastqc.html ./
-```
+In GitPod, you can directly visualise the html files by clicking on them. If you need to download the files from GitPod, click on the Download symbol on the top right. If you are not working on GitPod, use the command `scp` on your local machine.
 
 Here some [slides](https://github.com/speciationgenomics/presentations/blob/master/fastqc_interpretation.pdf) on interpreting fastqc html output.
 
@@ -87,7 +80,7 @@ is there a fail for the per sequence GC content graphs?
 ```shell
 # Remember to copy first the data (RAD1 and RAD2) and specify FILE as the name of the file containing the reads:
 FILE="RAD1.fastq.gz"
-cp ~/Share/RAD_raw/$FILE ./
+cp /workspace/biodiversity_genomics_2024/data/Heliconius/$FILE ./
 ```
 
 ### Challenging exercises for the bash wizards and those with extra time left
@@ -99,7 +92,7 @@ Here one very condensed solution: Try to find your own solution first!
 ```shell
 FILE=RAD2
 
-cp /home/data/fastq/$FILE ./
+cp /workspace/biodiversity_genomics_2024/data/Heliconius/$FILE.fastq.gz ./
 
 #Add GC content to each read in fastq file to check reads with highest or lowest GC contents:
 zcat ${FILE}.fastq.gz | awk 'NR%4==2' | awk '{split($1,seq,""); gc=0; at=0; n=0; for(base in seq){if(seq[base]=="A"||seq[base]=="T") at++; else if(seq[base]=="G"||seq[base]=="C") gc++; else n++}; print $0,gc/(at+gc+n)*100,n}' > ${FILE}.gc
@@ -121,10 +114,10 @@ As a second exercise, try to generate a new file from the fastqz file containing
 
 ```shell
 # Forward (R1) reads
-zcat /home/data/fastq/wgs.R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /workspace/biodiversity_genomics_2024/data/Heliconius/wgs.R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R1.subsampled.fastq.gz &
 
 # Reverse (R2) reads
-zcat /home/data/fastq/wgs.R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /workspace/biodiversity_genomics_2024/data/Heliconius/wgs.R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R2.subsampled.fastq.gz &
 ```
