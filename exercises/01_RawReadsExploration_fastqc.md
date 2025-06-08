@@ -12,7 +12,7 @@ cd fastqc
 
 # Now let's specify FILE as the name of the file containing the forward reads
 FILE="wgs1.R1.fastq.gz"
-cp /workspace/biodiversity_genomics_2024/data/Heliconius/$FILE ./
+cp /workspace/biodiversity_genomics/data/Heliconius/$FILE ./
 
 # Let's have a look at the first read:
 zcat $FILE | head -4
@@ -61,7 +61,7 @@ We should now also run fastqc on the file or reverse reads. As we do not need co
 ```shell
 # Reverse reads
 FILE="wgs1.R2.fastq.gz"
-cp /workspace/biodiversity_genomics_2024/data/Heliconius/$FILE ./
+cp /workspace/biodiversity_genomics/data/Heliconius/$FILE ./
 fastqc $FILE
 
 
@@ -80,7 +80,7 @@ is there a fail for the per sequence GC content graphs?
 ```shell
 # Remember to copy first the data (RAD1 and RAD2) and specify FILE as the name of the file containing the reads:
 FILE="RAD1.fastq.gz"
-cp /workspace/biodiversity_genomics_2024/data/Heliconius/$FILE ./
+cp /workspace/biodiversity_genomics/data/Heliconius/$FILE ./
 ```
 
 ### Challenging exercises for the bash wizards and those with extra time left
@@ -92,7 +92,7 @@ Here one very condensed solution: Try to find your own solution first!
 ```shell
 FILE=RAD2
 
-cp /workspace/biodiversity_genomics_2024/data/Heliconius/$FILE.fastq.gz ./
+cp /workspace/biodiversity_genomics/data/Heliconius/$FILE.fastq.gz ./
 
 #Add GC content to each read in fastq file to check reads with highest or lowest GC contents:
 zcat ${FILE}.fastq.gz | awk 'NR%4==2' | awk '{split($1,seq,""); gc=0; at=0; n=0; for(base in seq){if(seq[base]=="A"||seq[base]=="T") at++; else if(seq[base]=="G"||seq[base]=="C") gc++; else n++}; print $0,gc/(at+gc+n)*100,n}' > ${FILE}.gc
@@ -114,10 +114,10 @@ As a second exercise, try to generate a new file from the fastqz file containing
 
 ```shell
 # Forward (R1) reads
-zcat /workspace/biodiversity_genomics_2024/data/Heliconius/wgs.R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /workspace/biodiversity_genomics/data/Heliconius/wgs.R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R1.subsampled.fastq.gz &
 
 # Reverse (R2) reads
-zcat /workspace/biodiversity_genomics_2024/data/Heliconius/wgs.R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /workspace/biodiversity_genomics/data/Heliconius/wgs.R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R2.subsampled.fastq.gz &
 ```
